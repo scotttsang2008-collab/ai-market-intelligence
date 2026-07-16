@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>AI Market Intelligence</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+margin:0;
+padding:32px;
+color:#182230;
+}
+
+.wrap{
+max-width:920px;
+margin:auto;
+}
+
+.card{
+background:#fff;
+border-radius:16px;
+padding:30px;
+box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+
+label{
+display:block;
+font-weight:700;
+margin:18px 0 7px;
+}
+
+
+input,select,textarea{
+
+width:100%;
+box-sizing:border-box;
+padding:12px;
+border:1px solid #ccd4df;
+border-radius:9px;
+font-size:15px;
+
+}
+
+
+textarea{
+min-height:105px;
+}
+
+
+button{
+
+margin-top:22px;
+padding:13px 18px;
+border:0;
+border-radius:10px;
+background:#1f4e78;
+color:white;
+font-weight:700;
+cursor:pointer;
+
+}
+
+
+button:hover{
+background:#163a59;
+}
+
+
+
+.note{
+
+font-size:13px;
+color:#5d6a79;
+background:#eef4fa;
+padding:12px;
+border-radius:8px;
+
+}
+
+
+
+#output{
+
+background:#101827;
+color:#e8eef7;
+padding:25px;
+border-radius:12px;
+margin-top:20px;
+line-height:1.6;
+
+}
+
+
+#output h2,
+#output h3{
+
+color:white;
+
+}
+
+
+
+.source{
+
+background:#1b2638;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+
+}
+
+
+.exposure{
+
+background:#24344d;
+padding:20px;
+border-radius:12px;
+margin-top:15px;
+
+}
+
+
+.score{
+
+font-size:40px;
+font-weight:bold;
+
+}
+
+
+
+.source a{
+
+color:#7db7ff;
+word-break:break-all;
+
+}
+
+
+.download{
+margin-left:15px;
+margin-top:22px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrap">
+
+<div class="card">
+
+
+<h1>
+AI Market Intelligence Request
+</h1>
+
+
+<p class="note">
+
+<strong>Market rule:</strong>
+
+China means Mainland China using Simplified Chinese sources.
+Hong Kong is separate.
+
+</p>
+
+
+<label>Brand</label>
+
+<input id="brand" placeholder="e.g., MOFLIN">
+
+
+<label>Keywords</label>
+
+<textarea id="keywords"
+placeholder="e.g., pricing, complaints, reviews, sales"></textarea>
+
+
+
+<label>Market / Language</label>
+
+<select id="market_language">
+
+<option>Japan (Japanese)</option>
+<option>China (Chinese)</option>
+<option>Hong Kong (Traditional Chinese)</option>
+<option>United States (English)</option>
+<option>Global (Multi-language)</option>
+
+</select>
+
+
+<label>Time Period</label>
+
+<select id="time_period">
+
+<option>Last 24 hours</option>
+<option>Last week</option>
+<option>Last month</option>
+<option>Last 6 months</option>
+<option selected>Last year</option>
+<option>All time</option>
+
+</select>
+
+
+
+<label>Source Types</label>
+
+<select id="source_types">
+
+<option selected>All</option>
+<option>Official sources</option>
+<option>Social media</option>
+<option>Media / Press</option>
+<option>E-commerce</option>
+<option>Industry reports</option>
+
+</select>
+
+
+
+<label>Report Type</label>
+
+<select id="report_type">
+
+<option selected>Full market report</option>
+<option>Latest updates only</option>
+<option>Positive and negative feedback</option>
+<option>Sales and pricing</option>
+<option>Competitor comparison</option>
+
+</select>
+
+
+
+<label>Requested By</label>
+
+<input id="requested_by" placeholder="Name">
+
+
+
+<button id="run">
+Run Research
+</button>
+
+
+<button id="downloadPDF" class="download">
+Download PDF
+</button>
+
+
+
+<h2>
+Result
+</h2>
+
+
+<div id="output">
+
+Waiting for a request...
+
+</div>
+
+
+
+</div>
+
+</div>
+
+<script>
+
+const WEBHOOK_URL =
+"https://ttocs1ck.app.n8n.cloud/webhook/ai-market-intelligence";
+
+
+function clean(text){
+
+if(!text) return "";
+
+return String(text)
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;");
+
+}
+
+
+
+// PDF DOWNLOAD WITH CLICKABLE LINKS
+
+document.getElementById("downloadPDF").addEventListener("click", function(){
+
+const output =
+document.getElementById("output");
+
+
+if(
+output.innerText.trim()=="" ||
+output.innerText.includes("Waiting for a request")
+){
+
+alert("Please run research first.");
+
+return;
+
+}
+
+
+const { jsPDF } = window.jspdf;
+
+
+const pdf = new jsPDF();
+
+
+pdf.setFontSize(18);
+
+pdf.text(
+"AI Market Intelligence Report",
+10,
+20
+);
+
+
+
+let y = 35;
+
+
+pdf.setFontSize(11);
+
+
+
+const text =
+output.innerText;
+
+
+
+const lines =
+text.split("\n");
+
+
+
+lines.forEach(line=>{
+
+
+if(y > 280){
+
+pdf.addPage();
+
+y = 20;
+
+}
+
+
+
+const urlMatch =
+line.match(/https?:\/\/[^\s]+/);
+
+
+
+if(urlMatch){
+
+
+const url = urlMatch[0];
+
+
+const beforeURL =
+line.replace(url,"");
+
+
+
+pdf.text(
+beforeURL,
+10,
+y
+);
+
+
+
+const xPosition =
+10 + pdf.getTextWidth(beforeURL);
+
+
+
+pdf.setTextColor(0,0,255);
+
+
+pdf.textWithLink(
+url,
+xPosition,
+y,
+{
+url:url
+}
+);
+
+
+
+pdf.setTextColor(0,0,0);
+
+
+}
+
+else{
+
+
+pdf.text(
+line,
+10,
+y
+);
+
+
+}
+
+
+
+y += 6;
+
+
+
+});
+
+
+
+pdf.save(
+"AI_Market_Intelligence_Report.pdf"
+);
+
+
+
+});
+
+
+
+
+
+document.getElementById("run").onclick = async()=>{
+
+
+const output =
+document.getElementById("output");
+
+
+output.innerHTML =
+"Research running...";
+
+
+
+const payload={
+
+
+brand:
+document.getElementById("brand").value,
+
+
+keywords:
+document.getElementById("keywords").value,
+
+
+market_language:
+document.getElementById("market_language").value,
+
+
+time_period:
+document.getElementById("time_period").value,
+
+
+source_types:
+document.getElementById("source_types").value,
+
+
+report_type:
+document.getElementById("report_type").value,
+
+
+requested_by:
+document.getElementById("requested_by").value
+
+
+};
+
+
+
+try{
+
+
+const response =
+await fetch(
+
+WEBHOOK_URL,
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:
+JSON.stringify(payload)
+
+}
+
+);
+
+
+
+const data =
+await response.json();
+
+
+console.log(
+"FULL RESPONSE:",
+data
+);
+
+
+
+const report =
+data.report ||
+data.body?.report ||
+data;
+
+
+
+let html = `
+
+
+<h2>
+Market Research Report
+</h2>
+
+
+
+<h3>
+Executive Summary
+</h3>
+
+
+<p>
+
+${clean(
+report.executive_summary
+)}
+
+</p>
+
+`;
+
+
+
+
+
+// EXPOSURE SECTION
+
+
+if(report.exposure_analysis){
+
+
+html += `
+
+
+<h3>
+Exposure Analysis
+</h3>
+
+
+<div class="source">
+
+
+<div class="score">
+
+${clean(
+report.exposure_analysis.exposure_score
+)}
+
+/100
+
+</div>
+
+
+
+<p>
+
+<b>Measurement Basis:</b><br>
+
+${clean(
+report.exposure_analysis.measurement_basis
+)}
+
+</p>
+
+
+
+<p>
+
+<b>Total Sources Found:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.total_sources_found || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Retailer Sources:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.retailer_sources || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Video Reviews:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.video_sources || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Forum Discussions:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.forum_sources || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Blog Sources:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.blog_sources || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Social Media Sources:</b>
+
+${
+report.exposure_analysis
+.source_visibility
+?.social_media_sources || 0
+}
+
+</p>
+
+
+
+<p>
+
+<b>Confidence:</b>
+
+${clean(
+report.exposure_analysis.confidence
+)}
+
+</p>
+
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+// CONFIRMED FINDINGS
+
+
+html += `
+
+<h3>
+Confirmed Findings
+</h3>
+
+`;
+
+
+(report.confirmed_findings || [])
+
+.forEach((item,index)=>{
+
+
+html += `
+
+
+<div class="source">
+
+
+<strong>
+
+${index+1}. 
+${clean(item.finding)}
+
+</strong>
+
+
+<p>
+
+<b>Evidence Type:</b>
+
+${clean(item.evidence_type)}
+
+</p>
+
+
+<p>
+
+<b>Market Area:</b>
+
+${clean(item.market_area)}
+
+</p>
+
+
+<p>
+
+<b>Evidence:</b>
+
+${clean(item.evidence_excerpt)}
+
+</p>
+
+
+<p>
+
+<b>Confidence:</b>
+
+${clean(item.confidence)}
+
+</p>
+
+
+
+<a href="${item.source_url}" target="_blank">
+
+View Source
+
+</a>
+
+
+</div>
+
+
+`;
+
+});
+
+
+
+
+
+// POSITIVE
+
+
+html += `
+
+<h3>
+Positive Feedback
+</h3>
+
+`;
+
+
+
+(report.positive_feedback || [])
+
+.forEach(item=>{
+
+
+html += `
+
+
+<div class="source">
+
+
+<p>
+
+${clean(item.finding)}
+
+</p>
+
+
+<a href="${item.source_url}" target="_blank">
+
+View Source
+
+</a>
+
+
+</div>
+
+
+`;
+
+});
+
+
+
+
+
+// NEGATIVE
+
+
+html += `
+
+<h3>
+Negative Feedback
+</h3>
+
+`;
+
+
+
+(report.negative_feedback || [])
+
+.forEach(item=>{
+
+
+html += `
+
+
+<div class="source">
+
+
+<strong>
+
+${clean(item.finding)}
+
+</strong>
+
+
+<p>
+
+<b>Evidence:</b>
+
+${clean(item.evidence_excerpt)}
+
+</p>
+
+
+
+<a href="${item.source_url}" target="_blank">
+
+View Source
+
+</a>
+
+
+</div>
+
+
+`;
+
+});
+
+
+
+
+
+// MARKET GAPS
+
+
+html += `
+
+<h3>
+Market Gaps
+</h3>
+
+`;
+
+
+
+(report.market_gaps || [])
+
+.forEach(item=>{
+
+
+html += `
+
+<div class="source">
+
+${clean(item.finding)}
+
+</div>
+
+`;
+
+});
+
+
+
+
+
+
+// SOURCE TABLE
+
+
+html += `
+
+<h3>
+Sources
+</h3>
+
+`;
+
+
+
+(report.source_table || [])
+
+.forEach((s,index)=>{
+
+
+html += `
+
+
+<div class="source">
+
+
+<strong>
+
+Source ${index+1}
+
+</strong>
+
+
+<p>
+
+${clean(
+s.title
+)}
+
+</p>
+
+
+
+<a href="${s.url}" target="_blank">
+
+Open Source
+
+</a>
+
+
+</div>
+
+
+`;
+
+});
+
+
+
+output.innerHTML = html;
+
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+output.innerHTML = `
+
+<h3>
+Error
+</h3>
+
+
+<p>
+
+${clean(error.message)}
+
+</p>
+
+`;
+
+}
+
+
+
+};
+
+
+</script>
+
+</body> 
+</html>
