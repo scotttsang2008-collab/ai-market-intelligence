@@ -533,6 +533,16 @@ data
 );
 
 
+// SAVE ALL SOURCES FOR SOURCE LIBRARY PAGE
+
+localStorage.setItem(
+"sourceDatabase",
+JSON.stringify(
+data.source_database || {}
+)
+);
+
+
 
 const report =
 data.report ||
