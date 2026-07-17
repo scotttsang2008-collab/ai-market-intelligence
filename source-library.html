@@ -272,9 +272,12 @@ URL
 <script>
 
 
-let database = JSON.parse(
-localStorage.getItem("sourceDatabase")
+let database = 
+JSON.parse(
+    localStorage.getItem("sourceDatabase")
 ) || {};
+
+console.log("Loaded Source Database:", database);
 
 
 
