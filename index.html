@@ -537,6 +537,20 @@ data
 );
 
 
+localStorage.setItem(
+"sourceDatabase",
+JSON.stringify(
+data.source_database || {}
+)
+);
+
+
+console.log(
+"SAVED SOURCE DATABASE:",
+data.source_database
+);
+
+
 // SAVE ALL SOURCES FOR SOURCE LIBRARY PAGE
 
 localStorage.setItem(
