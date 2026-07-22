@@ -12,173 +12,131 @@
 AI Market Intelligence Source Database
 </title>
 
-
 <style>
 
 body{
-
-font-family:Arial,sans-serif;
-background:#f4f7fb;
-margin:0;
-padding:30px;
-color:#182230;
-
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  margin:0;
+  padding:30px;
+  color:#182230;
 }
-
 
 .container{
-
-max-width:1200px;
-margin:auto;
-
+  max-width:1200px;
+  margin:auto;
 }
-
 
 .card{
-
-background:white;
-padding:30px;
-border-radius:16px;
-box-shadow:0 8px 30px rgba(0,0,0,.08);
-
+  background:white;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
-
-
 
 h1{
-
-margin-bottom:10px;
-
+  margin-bottom:10px;
 }
-
-
 
 .search{
-
-width:100%;
-padding:12px;
-font-size:16px;
-border:1px solid #ccd4df;
-border-radius:8px;
-
+  width:100%;
+  box-sizing:border-box;
+  padding:12px;
+  font-size:16px;
+  border:1px solid #ccd4df;
+  border-radius:8px;
 }
-
-
 
 .filters{
-
-display:flex;
-gap:10px;
-margin:20px 0;
-flex-wrap:wrap;
-
+  display:flex;
+  gap:10px;
+  margin:20px 0;
+  flex-wrap:wrap;
 }
-
 
 button{
-
-padding:10px 15px;
-border:none;
-border-radius:8px;
-background:#1f4e78;
-color:white;
-cursor:pointer;
-
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:#1f4e78;
+  color:white;
+  cursor:pointer;
 }
-
-
 
 button:hover{
-
-background:#163a59;
-
+  background:#163a59;
 }
-
-
 
 table{
-
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
 }
-
-
 
 th{
-
-background:#1f4e78;
-color:white;
-padding:12px;
-text-align:left;
-
+  background:#1f4e78;
+  color:white;
+  padding:12px;
+  text-align:left;
 }
-
-
 
 td{
-
-padding:12px;
-border-bottom:1px solid #ddd;
-vertical-align:top;
-
+  padding:12px;
+  border-bottom:1px solid #ddd;
+  vertical-align:top;
 }
-
-
 
 a{
-
-color:#1f6feb;
-
+  color:#1f6feb;
 }
-
-
 
 .badge{
-
-padding:5px 10px;
-border-radius:10px;
-background:#eef4fa;
-
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:10px;
+  background:#eef4fa;
 }
 
+.empty{
+  padding:20px;
+  text-align:center;
+  color:#5d6a79;
+}
+
+.back-button{
+  margin-bottom:20px;
+}
 
 </style>
 
-
 </head>
-
 
 <body>
 
-
 <div class="container">
-
 
 <div class="card">
 
+<button
+  class="back-button"
+  onclick="window.location.href='index.html'"
+>
+← Back to Report
+</button>
 
 <h1>
 AI Market Intelligence Source Database
 </h1>
 
-
 <p>
-
-All discovered sources organized by source type.
-
+All discovered sources from the latest generated report.
 </p>
 
-
-
-<input 
-id="search"
-class="search"
-placeholder="Search sources..."
+<input
+  id="search"
+  class="search"
+  placeholder="Search sources..."
 >
-
-
 
 <div class="filters">
 
@@ -186,46 +144,41 @@ placeholder="Search sources..."
 All
 </button>
 
-
 <button onclick="filterSources('reddit')">
 Reddit
 </button>
 
-
-<button onclick="filterSources('youtube_reviews')">
+<button onclick="filterSources('youtube')">
 YouTube
 </button>
 
-
-<button onclick="filterSources('note_blogs')">
-Note Blogs
+<button onclick="filterSources('blog')">
+Blogs
 </button>
 
-
-<button onclick="filterSources('forums')">
+<button onclick="filterSources('forum')">
 Forums
 </button>
 
-
-<button onclick="filterSources('retailers')">
+<button onclick="filterSources('retailer')">
 Retailers
 </button>
 
+<button onclick="filterSources('social')">
+Social Media
+</button>
+
+<button onclick="filterSources('web')">
+Web Articles
+</button>
 
 </div>
 
-
-
 <h2 id="count">
-
 Sources Found: 0
-
 </h2>
 
-
-
 <table>
-
 
 <thead>
 
@@ -244,6 +197,10 @@ Published Date
 </th>
 
 <th>
+Reliability
+</th>
+
+<th>
 URL
 </th>
 
@@ -251,230 +208,403 @@ URL
 
 </thead>
 
-
 <tbody id="table">
-
 </tbody>
-
 
 </table>
 
-
-
 </div>
 
 </div>
-
-
-
-
 
 <script>
 
+function clean(text){
 
-let database = 
-JSON.parse(
-    localStorage.getItem("sourceDatabase")
-) || {};
+  if(text === null || text === undefined){
+    return "";
+  }
 
-console.log("Loaded Source Database:", database);
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
+}
+
+
+function safeUrl(url){
+
+  if(!url){
+    return "#";
+  }
+
+  try{
+
+    const parsedUrl = new URL(url);
+
+    if(
+      parsedUrl.protocol === "http:" ||
+      parsedUrl.protocol === "https:"
+    ){
+      return parsedUrl.href;
+    }
+
+  } catch(error){
+
+    console.warn(
+      "Invalid source URL:",
+      url
+    );
+
+  }
+
+  return "#";
+
+}
+
+
+function normalizeType(type){
+
+  return String(type || "")
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function matchesType(source,type){
+
+  if(type === "all"){
+    return true;
+  }
+
+  const sourceType =
+    normalizeType(source.source_type);
+
+  if(type === "reddit"){
+    return sourceType.includes("reddit");
+  }
+
+  if(type === "youtube"){
+    return (
+      sourceType.includes("youtube") ||
+      sourceType.includes("video")
+    );
+  }
+
+  if(type === "blog"){
+    return (
+      sourceType.includes("blog") ||
+      sourceType.includes("note")
+    );
+  }
+
+  if(type === "forum"){
+    return sourceType.includes("forum");
+  }
+
+  if(type === "retailer"){
+    return (
+      sourceType.includes("retailer") ||
+      sourceType.includes("retail")
+    );
+  }
+
+  if(type === "social"){
+    return (
+      sourceType.includes("social") ||
+      sourceType.includes("instagram") ||
+      sourceType.includes("facebook") ||
+      sourceType.includes("tiktok") ||
+      sourceType.includes("x / twitter") ||
+      sourceType.includes("twitter")
+    );
+  }
+
+  if(type === "web"){
+    return (
+      sourceType.includes("web") ||
+      sourceType.includes("article") ||
+      sourceType.includes("news") ||
+      sourceType.includes("media")
+    );
+  }
+
+  return false;
+
+}
+
+
+let storedValue =
+  localStorage.getItem("sourceDatabase");
+
+
+let database = [];
+
+try{
+
+  const parsed =
+    storedValue
+      ? JSON.parse(storedValue)
+      : [];
+
+  /*
+  Supports both formats:
+
+  1. New format:
+     [
+       {
+         title:"",
+         url:"",
+         source_type:"",
+         published_date:"",
+         reliability_level:""
+       }
+     ]
+
+  2. Old grouped format:
+     {
+       reddit:[...],
+       youtube_reviews:[...],
+       note_blogs:[...]
+     }
+  */
+
+  if(Array.isArray(parsed)){
+
+    database = parsed;
+
+  } else if(
+    parsed &&
+    typeof parsed === "object"
+  ){
+
+    Object.keys(parsed).forEach(category => {
+
+      const categorySources =
+        parsed[category];
+
+      if(Array.isArray(categorySources)){
+
+        categorySources.forEach(source => {
+
+          database.push({
+
+            ...source,
+
+            category
+
+          });
+
+        });
+
+      }
+
+    });
+
+  }
+
+} catch(error){
+
+  console.error(
+    "Could not parse saved source database:",
+    error
+  );
+
+  database = [];
+
+}
+
+
+console.log(
+  "Loaded Source Database:",
+  database
+);
 
 
 let currentType = "all";
 
 
-
-function getAllSources(){
-
-
-let all=[];
-
-
-Object.keys(database).forEach(type=>{
-
-
-database[type].forEach(source=>{
-
-
-all.push({
-
-...source,
-
-category:type
-
-});
-
-
-});
-
-
-});
-
-
-return all;
-
-}
-
-
-
 function displaySources(){
 
+  const table =
+    document.getElementById("table");
 
-const table =
-document.getElementById("table");
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .trim()
+      .toLowerCase();
+
+  let sources =
+    database.filter(source => {
+
+      const matchesFilter =
+        matchesType(
+          source,
+          currentType
+        );
+
+      const matchesSearch =
+
+        clean(source.title)
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        clean(source.url)
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        clean(source.source_type)
+          .toLowerCase()
+          .includes(search)
+
+        ||
+
+        clean(source.published_date)
+          .toLowerCase()
+          .includes(search);
+
+      return (
+        matchesFilter &&
+        matchesSearch
+      );
+
+    });
 
 
-table.innerHTML="";
+  document
+    .getElementById("count")
+    .textContent =
+      `Sources Found: ${sources.length}`;
 
 
+  if(sources.length === 0){
 
-let sources =
-getAllSources();
+    table.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="5"
+          class="empty"
+        >
+          No sources found for this filter.
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
 
 
+  table.innerHTML =
+    sources
+      .map(source => {
 
-if(currentType !== "all"){
+        const sourceUrl =
+          safeUrl(source.url);
 
-sources =
-database[currentType] || [];
+        const sourceType =
+          source.source_type ||
+          source.category ||
+          "Unknown";
+
+        const publishedDate =
+          source.published_date ||
+          "Unknown";
+
+        const reliability =
+          source.reliability_level ||
+          source.reliability ||
+          "Unknown";
+
+        const sourceLink =
+
+          sourceUrl !== "#"
+
+            ? `
+              <a
+                href="${clean(sourceUrl)}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Source
+              </a>
+            `
+
+            : "URL unavailable";
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${clean(source.title || "No title")}
+            </td>
+
+            <td>
+
+              <span class="badge">
+                ${clean(sourceType)}
+              </span>
+
+            </td>
+
+            <td>
+              ${clean(publishedDate)}
+            </td>
+
+            <td>
+              ${clean(reliability)}
+            </td>
+
+            <td>
+              ${sourceLink}
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
 
 }
-
-
-
-
-const search =
-document.getElementById("search")
-.value
-.toLowerCase();
-
-
-
-sources =
-sources.filter(s=>{
-
-
-return (
-
-(s.title || "")
-.toLowerCase()
-.includes(search)
-
-||
-(s.url || "")
-.toLowerCase()
-.includes(search)
-
-||
-(s.source_type || "")
-.toLowerCase()
-.includes(search)
-
-);
-
-
-});
-
-
-
-document.getElementById("count")
-.innerHTML =
-"Sources Found: "
-+
-sources.length;
-
-
-
-sources.forEach(source=>{
-
-
-table.innerHTML += `
-
-
-<tr>
-
-
-<td>
-
-${source.title || "No title"}
-
-</td>
-
-
-
-<td>
-
-<span class="badge">
-
-${source.source_type || source.category}
-
-</span>
-
-</td>
-
-
-
-<td>
-
-${source.published_date || "Unknown"}
-
-</td>
-
-
-
-<td>
-
-<a href="${source.url}" target="_blank">
-
-Open Source
-
-</a>
-
-
-</td>
-
-
-
-</tr>
-
-
-`;
-
-
-});
-
-
-}
-
-
 
 
 function filterSources(type){
 
-currentType=type;
+  currentType = type;
 
-displaySources();
+  displaySources();
 
 }
 
 
-
 document
-.getElementById("search")
-.addEventListener(
-"input",
-displaySources
-);
-
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    displaySources
+  );
 
 
 displaySources();
 
-
-
 </script>
-
 
 </body>
 
