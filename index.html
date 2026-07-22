@@ -576,14 +576,16 @@ document
         data.body?.report ||
         data;
 
-      /*
-Save the report's source table so the Source Database page can use it.
+   /*
+Save every discovered source for source-library.html
 */
 
 const sourceDatabase =
-  Array.isArray(report.source_table)
-    ? report.source_table
-    : [];
+  Array.isArray(data.source_database)
+    ? data.source_database
+    : Array.isArray(report.source_table)
+      ? report.source_table
+      : [];
 
 localStorage.setItem(
   "sourceDatabase",
@@ -591,15 +593,9 @@ localStorage.setItem(
 );
 
 console.log(
-  "REPORT SOURCE TABLE:",
-  report.source_table
-);
-
-console.log(
   "SAVED SOURCE DATABASE:",
-  JSON.parse(localStorage.getItem("sourceDatabase"))
+  sourceDatabase
 );
-
       if(!report || typeof report !== "object"){
 
         throw new Error(
