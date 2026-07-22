@@ -577,25 +577,28 @@ document
         data;
 
       /*
-      Save a source database if n8n includes one.
+Save the report's source table so the Source Database page can use it.
+*/
 
-      It may be inside the main response or inside report.
-      */
+const sourceDatabase =
+  Array.isArray(report.source_table)
+    ? report.source_table
+    : [];
 
-      const sourceDatabase =
-        data.source_database ||
-        report.source_database ||
-        {};
+localStorage.setItem(
+  "sourceDatabase",
+  JSON.stringify(sourceDatabase)
+);
 
-      localStorage.setItem(
-        "sourceDatabase",
-        JSON.stringify(sourceDatabase)
-      );
+console.log(
+  "REPORT SOURCE TABLE:",
+  report.source_table
+);
 
-      console.log(
-        "SAVED SOURCE DATABASE:",
-        sourceDatabase
-      );
+console.log(
+  "SAVED SOURCE DATABASE:",
+  JSON.parse(localStorage.getItem("sourceDatabase"))
+);
 
       if(!report || typeof report !== "object"){
 
