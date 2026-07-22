@@ -13,162 +13,140 @@
 <style>
 
 body{
-font-family:Arial,sans-serif;
-background:#f4f7fb;
-margin:0;
-padding:32px;
-color:#182230;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  margin:0;
+  padding:32px;
+  color:#182230;
 }
 
 .wrap{
-max-width:920px;
-margin:auto;
+  max-width:920px;
+  margin:auto;
 }
 
 .card{
-background:#fff;
-border-radius:16px;
-padding:30px;
-box-shadow:0 8px 30px rgba(0,0,0,.08);
+  background:#fff;
+  border-radius:16px;
+  padding:30px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
-
 
 label{
-display:block;
-font-weight:700;
-margin:18px 0 7px;
+  display:block;
+  font-weight:700;
+  margin:18px 0 7px;
 }
 
-
-input,select,textarea{
-
-width:100%;
-box-sizing:border-box;
-padding:12px;
-border:1px solid #ccd4df;
-border-radius:9px;
-font-size:15px;
-
+input,
+select,
+textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px;
+  border:1px solid #ccd4df;
+  border-radius:9px;
+  font-size:15px;
 }
-
 
 textarea{
-min-height:105px;
+  min-height:105px;
 }
-
 
 button{
-
-margin-top:22px;
-padding:13px 18px;
-border:0;
-border-radius:10px;
-background:#1f4e78;
-color:white;
-font-weight:700;
-cursor:pointer;
-
+  margin-top:22px;
+  padding:13px 18px;
+  border:0;
+  border-radius:10px;
+  background:#1f4e78;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
 }
-
 
 button:hover{
-background:#163a59;
+  background:#163a59;
 }
 
-
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
 .note{
-
-font-size:13px;
-color:#5d6a79;
-background:#eef4fa;
-padding:12px;
-border-radius:8px;
-
+  font-size:13px;
+  color:#5d6a79;
+  background:#eef4fa;
+  padding:12px;
+  border-radius:8px;
 }
-
-
 
 #output{
-
-background:#101827;
-color:#e8eef7;
-padding:25px;
-border-radius:12px;
-margin-top:20px;
-line-height:1.6;
-
+  background:#101827;
+  color:#e8eef7;
+  padding:25px;
+  border-radius:12px;
+  margin-top:20px;
+  line-height:1.6;
 }
-
 
 #output h2,
 #output h3{
-
-color:white;
-
+  color:white;
 }
-
-
 
 .source{
-
-background:#1b2638;
-padding:15px;
-border-radius:10px;
-margin-top:15px;
-
+  background:#1b2638;
+  padding:15px;
+  border-radius:10px;
+  margin-top:15px;
 }
-
 
 .exposure{
-
-background:#24344d;
-padding:20px;
-border-radius:12px;
-margin-top:15px;
-
+  background:#24344d;
+  padding:20px;
+  border-radius:12px;
+  margin-top:15px;
 }
-
 
 .score{
-
-font-size:40px;
-font-weight:bold;
-
+  font-size:40px;
+  font-weight:bold;
 }
-
-
 
 .source a{
-
-color:#7db7ff;
-word-break:break-all;
-
+  color:#7db7ff;
+  word-break:break-all;
 }
 
-
 .download{
-margin-left:15px;
-margin-top:22px;
+  margin-left:15px;
+  margin-top:22px;
+}
+
+.loading-status{
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.loading-time{
+  color:#aebbd0;
+  font-size:14px;
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="wrap">
 
 <div class="card">
 
-
 <h1>
 AI Market Intelligence Request
 </h1>
-
 
 <p class="note">
 
@@ -179,18 +157,16 @@ Hong Kong is separate.
 
 </p>
 
-
 <label>Brand</label>
 
 <input id="brand" placeholder="e.g., MOFLIN">
 
-
 <label>Keywords</label>
 
-<textarea id="keywords"
-placeholder="e.g., pricing, complaints, reviews, sales"></textarea>
-
-
+<textarea
+  id="keywords"
+  placeholder="e.g., pricing, complaints, reviews, sales"
+></textarea>
 
 <label>Market / Language</label>
 
@@ -203,7 +179,6 @@ placeholder="e.g., pricing, complaints, reviews, sales"></textarea>
 <option>Global (Multi-language)</option>
 
 </select>
-
 
 <label>Time Period</label>
 
@@ -218,35 +193,22 @@ placeholder="e.g., pricing, complaints, reviews, sales"></textarea>
 
 </select>
 
-
-
 <label>Source Types</label>
 
 <select id="source_types">
 
 <option selected>All</option>
-
 <option>Reddit</option>
-
 <option>YouTube</option>
-
 <option>Note Blogs</option>
-
 <option>Personal Websites</option>
-
 <option>Forums</option>
-
 <option>Social Media</option>
-
 <option>Retailers</option>
-
 <option>News / Media</option>
-
 <option>Official Websites</option>
 
 </select>
-
-
 
 <label>Report Type</label>
 
@@ -260,41 +222,29 @@ placeholder="e.g., pricing, complaints, reviews, sales"></textarea>
 
 </select>
 
-
-
 <label>Requested By</label>
 
 <input id="requested_by" placeholder="Name">
-
-
 
 <button id="run">
 Run Research
 </button>
 
-
 <button id="downloadPDF" class="download">
 Download PDF
 </button>
-
 
 <button onclick="window.location.href='source-library.html'">
 📂 View All Sources Found
 </button>
 
-
 <h2>
 Result
 </h2>
 
-
 <div id="output">
-
 Waiting for a request...
-
 </div>
-
-
 
 </div>
 
@@ -302,782 +252,885 @@ Waiting for a request...
 
 <script>
 
+/*
+Use the test URL only while testing.
+
+Before clicking Run Research:
+1. Open n8n.
+2. Open the Webhook node.
+3. Click "Listen for test event".
+4. Then click Run Research on the website.
+
+For the live website, replace /webhook-test/ with /webhook/
+and activate/publish the n8n workflow.
+*/
+
 const WEBHOOK_URL =
 "https://ttocs1ck.app.n8n.cloud/webhook-test/ai-market-intelligence";
 
+
 function clean(text){
 
-if(!text) return "";
+  if(text === null || text === undefined){
+    return "";
+  }
 
-return String(text)
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;");
-
-}
-
-
-
-// PDF DOWNLOAD WITH CLICKABLE LINKS
-
-document.getElementById("downloadPDF").addEventListener("click", function(){
-
-const output =
-document.getElementById("output");
-
-
-if(
-output.innerText.trim()=="" ||
-output.innerText.includes("Waiting for a request")
-){
-
-alert("Please run research first.");
-
-return;
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-const { jsPDF } = window.jspdf;
+function safeUrl(url){
 
+  if(!url){
+    return "#";
+  }
 
-const pdf = new jsPDF();
+  try{
 
+    const parsedUrl = new URL(url);
 
-pdf.setFontSize(18);
+    if(
+      parsedUrl.protocol === "http:" ||
+      parsedUrl.protocol === "https:"
+    ){
+      return parsedUrl.href;
+    }
 
-pdf.text(
-"AI Market Intelligence Report",
-10,
-20
-);
+  } catch(error){
 
+    console.warn("Invalid source URL:", url);
 
+  }
 
-let y = 35;
-
-
-pdf.setFontSize(11);
-
-
-
-const text =
-output.innerText;
-
-
-
-const lines =
-text.split("\n");
-
-
-
-lines.forEach(line=>{
-
-
-if(y > 280){
-
-pdf.addPage();
-
-y = 20;
+  return "#";
 
 }
 
 
+function formatElapsedTime(seconds){
 
-const urlMatch =
-line.match(/https?:\/\/[^\s]+/);
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
 
+  if(minutes === 0){
+    return `${remainingSeconds} seconds`;
+  }
 
-
-if(urlMatch){
-
-
-const url = urlMatch[0];
-
-
-const beforeURL =
-line.replace(url,"");
-
-
-
-pdf.text(
-beforeURL,
-10,
-y
-);
-
-
-
-const xPosition =
-10 + pdf.getTextWidth(beforeURL);
-
-
-
-pdf.setTextColor(0,0,255);
-
-
-pdf.textWithLink(
-url,
-xPosition,
-y,
-{
-url:url
-}
-);
-
-
-
-pdf.setTextColor(0,0,0);
-
-
-}
-
-else{
-
-
-pdf.text(
-line,
-10,
-y
-);
-
+  return `${minutes} minute${minutes === 1 ? "" : "s"} ${remainingSeconds} seconds`;
 
 }
 
 
+// PDF DOWNLOAD
 
-y += 6;
+document
+  .getElementById("downloadPDF")
+  .addEventListener("click", function(){
 
+    const output =
+      document.getElementById("output");
 
+    if(
+      output.innerText.trim() === "" ||
+      output.innerText.includes("Waiting for a request") ||
+      output.innerText.includes("Research is running")
+    ){
 
-});
+      alert("Please run research and wait for the report first.");
 
+      return;
 
+    }
 
-pdf.save(
-"AI_Market_Intelligence_Report.pdf"
-);
+    const { jsPDF } = window.jspdf;
 
+    const pdf = new jsPDF();
 
+    pdf.setFontSize(18);
 
-});
+    pdf.text(
+      "AI Market Intelligence Report",
+      10,
+      20
+    );
 
+    let y = 35;
 
+    pdf.setFontSize(11);
 
+    const text =
+      output.innerText;
 
+    const lines =
+      pdf.splitTextToSize(text, 185);
 
-document.getElementById("run").onclick = async()=>{
+    lines.forEach(line => {
 
+      if(y > 280){
 
-const output =
-document.getElementById("output");
+        pdf.addPage();
 
+        y = 20;
 
-output.innerHTML =
-"Research running...";
+      }
 
+      pdf.text(
+        line,
+        10,
+        y
+      );
 
+      y += 6;
 
-const payload={
+    });
 
+    pdf.save(
+      "AI_Market_Intelligence_Report.pdf"
+    );
 
-brand:
-document.getElementById("brand").value,
+  });
 
 
-keywords:
-document.getElementById("keywords").value,
+// RUN RESEARCH
 
+document
+  .getElementById("run")
+  .onclick = async () => {
 
-market_language:
-document.getElementById("market_language").value,
+    const output =
+      document.getElementById("output");
 
+    const runButton =
+      document.getElementById("run");
 
-time_period:
-document.getElementById("time_period").value,
+    const brand =
+      document.getElementById("brand").value.trim();
 
+    if(!brand){
 
-source_types:
-document.getElementById("source_types").value,
+      output.innerHTML = `
+        <h3>Missing Brand</h3>
+        <p>Please enter a brand or product name.</p>
+      `;
 
+      return;
 
-report_type:
-document.getElementById("report_type").value,
+    }
 
+    const payload = {
 
-requested_by:
-document.getElementById("requested_by").value
+      brand,
 
+      keywords:
+        document.getElementById("keywords").value.trim(),
 
-};
+      market_language:
+        document.getElementById("market_language").value,
 
+      time_period:
+        document.getElementById("time_period").value,
 
+      source_types:
+        document.getElementById("source_types").value,
 
-try{
+      report_type:
+        document.getElementById("report_type").value,
 
+      requested_by:
+        document.getElementById("requested_by").value.trim()
 
-const response =
-await fetch(
+    };
 
-WEBHOOK_URL,
+    runButton.disabled = true;
+    runButton.textContent = "Research Running...";
 
-{
+    let elapsedSeconds = 0;
 
-method:"POST",
+    output.innerHTML = `
+      <div class="loading-status">
+        Research is running...
+      </div>
 
-headers:{
+      <div class="loading-time" id="loadingTime">
+        Time elapsed: 0 seconds
+      </div>
 
-"Content-Type":"application/json"
+      <p>
+        The system is collecting sources, analyzing feedback,
+        and generating your report. This may take several minutes.
+      </p>
+    `;
 
-},
+    const timer = setInterval(() => {
 
-body:
-JSON.stringify(payload)
+      elapsedSeconds += 1;
 
-}
+      const loadingTime =
+        document.getElementById("loadingTime");
 
-);
+      if(loadingTime){
 
+        loadingTime.textContent =
+          `Time elapsed: ${formatElapsedTime(elapsedSeconds)}`;
 
+      }
 
-const data =
-await response.json();
+    }, 1000);
 
+    try{
 
-console.log(
-"FULL RESPONSE:",
-data
-);
+      /*
+      IMPORTANT:
 
+      text/plain is used instead of application/json.
 
-localStorage.setItem(
-"sourceDatabase",
-JSON.stringify(
-data.source_database || {}
-)
-);
+      This prevents the browser from sending the OPTIONS
+      preflight request that was being blocked by CORS.
+      */
 
+      const response = await fetch(
 
-console.log(
-"SAVED SOURCE DATABASE:",
-data.source_database
-);
+        WEBHOOK_URL,
 
+        {
 
-// SAVE ALL SOURCES FOR SOURCE LIBRARY PAGE
+          method:"POST",
 
-localStorage.setItem(
-"sourceDatabase",
-JSON.stringify(
-data.source_database || {}
-)
-);
+          headers:{
 
+            "Content-Type":"text/plain;charset=UTF-8"
 
+          },
 
-const report =
-data.report ||
-data.body?.report ||
-data;
+          body:
+            JSON.stringify(payload)
 
+        }
 
+      );
 
-let html = `
+      if(!response.ok){
 
+        const errorText =
+          await response.text();
 
-<h2>
-Market Research Report
-</h2>
+        throw new Error(
+          `Webhook returned HTTP ${response.status}: ${errorText || response.statusText}`
+        );
 
+      }
 
+      const responseText =
+        await response.text();
 
-<h3>
-Executive Summary
-</h3>
+      if(!responseText){
 
+        throw new Error(
+          "The webhook completed but returned an empty response."
+        );
 
-<p>
+      }
 
-${clean(
-report.executive_summary
-)}
+      let data;
 
-</p>
+      try{
 
-`;
+        data =
+          JSON.parse(responseText);
 
+      } catch(error){
 
+        console.error(
+          "Non-JSON webhook response:",
+          responseText
+        );
 
+        throw new Error(
+          "The webhook returned a response that was not valid JSON."
+        );
 
+      }
 
-// EXPOSURE SECTION
+      console.log(
+        "FULL RESPONSE:",
+        data
+      );
 
+      /*
+      Return Report currently responds with:
 
-if(report.exposure_analysis){
+      {
+        success: true,
+        report: {...}
+      }
+      */
 
+      const report =
+        data.report ||
+        data.body?.report ||
+        data;
 
-html += `
+      /*
+      Save a source database if n8n includes one.
 
+      It may be inside the main response or inside report.
+      */
 
-<h3>
-Exposure Analysis
-</h3>
+      const sourceDatabase =
+        data.source_database ||
+        report.source_database ||
+        {};
 
+      localStorage.setItem(
+        "sourceDatabase",
+        JSON.stringify(sourceDatabase)
+      );
 
-<div class="source">
+      console.log(
+        "SAVED SOURCE DATABASE:",
+        sourceDatabase
+      );
 
+      if(!report || typeof report !== "object"){
 
-<div class="score">
+        throw new Error(
+          "The webhook returned no report object."
+        );
 
-${clean(
-report.exposure_analysis.exposure_score
-)}
+      }
 
-/100
+      let html = `
 
-</div>
+        <h2>
+          Market Research Report
+        </h2>
 
+        <h3>
+          Executive Summary
+        </h3>
 
+        <p>
+          ${clean(report.executive_summary)}
+        </p>
 
-<p>
+      `;
 
-<b>Measurement Basis:</b><br>
 
-${clean(
-report.exposure_analysis.measurement_basis
-)}
+      // EXPOSURE ANALYSIS
 
-</p>
+      if(report.exposure_analysis){
 
+        const visibility =
+          report.exposure_analysis.source_visibility || {};
 
+        html += `
 
-<p>
+          <h3>
+            Exposure Analysis
+          </h3>
 
-<b>Total Sources Found:</b>
+          <div class="exposure">
 
-${
-report.exposure_analysis
-.source_visibility
-?.total_sources_found || 0
-}
+            <div class="score">
+              ${clean(report.exposure_analysis.exposure_score || 0)}/100
+            </div>
 
-</p>
+            <p>
+              <b>Measurement Basis:</b><br>
+              ${clean(report.exposure_analysis.measurement_basis)}
+            </p>
 
+            <p>
+              <b>Total Sources Found:</b>
+              ${clean(visibility.total_sources_found || 0)}
+            </p>
 
+            <p>
+              <b>Retailer Sources:</b>
+              ${clean(visibility.retailer_sources || 0)}
+            </p>
 
-<p>
+            <p>
+              <b>Video Reviews:</b>
+              ${clean(visibility.video_sources || 0)}
+            </p>
 
-<b>Retailer Sources:</b>
+            <p>
+              <b>Forum Discussions:</b>
+              ${clean(visibility.forum_sources || 0)}
+            </p>
 
-${
-report.exposure_analysis
-.source_visibility
-?.retailer_sources || 0
-}
+            <p>
+              <b>Blog Sources:</b>
+              ${clean(visibility.blog_sources || 0)}
+            </p>
 
-</p>
+            <p>
+              <b>Social Media Sources:</b>
+              ${clean(visibility.social_media_sources || 0)}
+            </p>
 
+            <p>
+              <b>Web Article Sources:</b>
+              ${clean(visibility.web_article_sources || 0)}
+            </p>
 
+            <p>
+              <b>Media Presence:</b><br>
+              ${clean(report.exposure_analysis.media_presence)}
+            </p>
 
-<p>
+            <p>
+              <b>Social Presence:</b><br>
+              ${clean(report.exposure_analysis.social_presence)}
+            </p>
 
-<b>Video Reviews:</b>
+            <p>
+              <b>Confidence:</b>
+              ${clean(report.exposure_analysis.confidence)}
+            </p>
 
-${
-report.exposure_analysis
-.source_visibility
-?.video_sources || 0
-}
+          </div>
 
-</p>
+        `;
 
+      }
 
 
-<p>
+      // CONFIRMED FINDINGS
 
-<b>Forum Discussions:</b>
+      html += `
 
-${
-report.exposure_analysis
-.source_visibility
-?.forum_sources || 0
-}
+        <h3>
+          Confirmed Findings
+        </h3>
 
-</p>
+      `;
 
+      const confirmedFindings =
+        Array.isArray(report.confirmed_findings)
+          ? report.confirmed_findings
+          : [];
 
+      if(confirmedFindings.length === 0){
 
-<p>
+        html += `
+          <p>No confirmed findings were returned.</p>
+        `;
 
-<b>Blog Sources:</b>
+      }
 
-${
-report.exposure_analysis
-.source_visibility
-?.blog_sources || 0
-}
+      confirmedFindings.forEach((item,index) => {
 
-</p>
+        const sourceUrl =
+          safeUrl(item.source_url);
 
+        html += `
 
+          <div class="source">
 
-<p>
+            <strong>
+              ${index + 1}. ${clean(item.finding)}
+            </strong>
 
-<b>Social Media Sources:</b>
+            <p>
+              <b>Evidence Type:</b>
+              ${clean(item.evidence_type)}
+            </p>
 
-${
-report.exposure_analysis
-.source_visibility
-?.social_media_sources || 0
-}
+            <p>
+              <b>Market Area:</b>
+              ${clean(item.market_area)}
+            </p>
 
-</p>
+            <p>
+              <b>Evidence:</b>
+              ${clean(item.evidence_excerpt)}
+            </p>
 
+            <p>
+              <b>Confidence:</b>
+              ${clean(item.confidence)}
+            </p>
 
+            ${
+              sourceUrl !== "#"
+                ? `
+                  <a
+                    href="${clean(sourceUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Source
+                  </a>
+                `
+                : `<p>Source URL unavailable.</p>`
+            }
 
-<p>
+          </div>
 
-<b>Confidence:</b>
+        `;
 
-${clean(
-report.exposure_analysis.confidence
-)}
+      });
 
-</p>
 
+      // POSITIVE FEEDBACK
 
+      html += `
 
-</div>
+        <h3>
+          Positive Feedback
+        </h3>
 
+      `;
 
-`;
+      const positiveFeedback =
+        Array.isArray(report.positive_feedback)
+          ? report.positive_feedback
+          : [];
 
-}
+      if(positiveFeedback.length === 0){
 
+        html += `
+          <p>No positive feedback was returned.</p>
+        `;
 
+      }
 
+      positiveFeedback.forEach(item => {
 
-// CONFIRMED FINDINGS
+        const sourceUrl =
+          safeUrl(item.source_url);
 
+        html += `
 
-html += `
+          <div class="source">
 
-<h3>
-Confirmed Findings
-</h3>
+            <strong>
+              ${clean(item.finding)}
+            </strong>
 
-`;
+            <p>
+              ${clean(item.evidence_excerpt)}
+            </p>
 
+            ${
+              sourceUrl !== "#"
+                ? `
+                  <a
+                    href="${clean(sourceUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Source
+                  </a>
+                `
+                : ""
+            }
 
-(report.confirmed_findings || [])
+          </div>
 
-.forEach((item,index)=>{
+        `;
 
+      });
 
-html += `
 
+      // NEGATIVE FEEDBACK
 
-<div class="source">
+      html += `
 
+        <h3>
+          Negative Feedback
+        </h3>
 
-<strong>
+      `;
 
-${index+1}. 
-${clean(item.finding)}
+      const negativeFeedback =
+        Array.isArray(report.negative_feedback)
+          ? report.negative_feedback
+          : [];
 
-</strong>
+      if(negativeFeedback.length === 0){
 
+        html += `
+          <p>No negative feedback was returned.</p>
+        `;
 
-<p>
+      }
 
-<b>Evidence Type:</b>
+      negativeFeedback.forEach(item => {
 
-${clean(item.evidence_type)}
+        const sourceUrl =
+          safeUrl(item.source_url);
 
-</p>
+        html += `
 
+          <div class="source">
 
-<p>
+            <strong>
+              ${clean(item.finding)}
+            </strong>
 
-<b>Market Area:</b>
+            <p>
+              <b>Evidence:</b>
+              ${clean(item.evidence_excerpt)}
+            </p>
 
-${clean(item.market_area)}
+            ${
+              sourceUrl !== "#"
+                ? `
+                  <a
+                    href="${clean(sourceUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Source
+                  </a>
+                `
+                : ""
+            }
 
-</p>
+          </div>
 
+        `;
 
-<p>
+      });
 
-<b>Evidence:</b>
 
-${clean(item.evidence_excerpt)}
+      // MARKET GAPS
 
-</p>
+      html += `
 
+        <h3>
+          Market Gaps
+        </h3>
 
-<p>
+      `;
 
-<b>Confidence:</b>
+      const marketGaps =
+        Array.isArray(report.market_gaps)
+          ? report.market_gaps
+          : [];
 
-${clean(item.confidence)}
+      if(marketGaps.length === 0){
 
-</p>
+        html += `
+          <p>No market gaps were returned.</p>
+        `;
 
+      }
 
+      marketGaps.forEach(item => {
 
-<a href="${item.source_url}" target="_blank">
+        const finding =
+          typeof item === "string"
+            ? item
+            : item.finding;
 
-View Source
+        html += `
 
-</a>
+          <div class="source">
+            ${clean(finding)}
+          </div>
 
+        `;
 
-</div>
+      });
 
 
-`;
+      // IMPLICATIONS
 
-});
+      if(
+        Array.isArray(report.implications) &&
+        report.implications.length > 0
+      ){
 
+        html += `
 
+          <h3>
+            Business Implications
+          </h3>
 
+        `;
 
+        report.implications.forEach(item => {
 
-// POSITIVE
+          const finding =
+            typeof item === "string"
+              ? item
+              : item.finding;
 
+          html += `
 
-html += `
+            <div class="source">
+              ${clean(finding)}
+            </div>
 
-<h3>
-Positive Feedback
-</h3>
+          `;
 
-`;
+        });
 
+      }
 
 
-(report.positive_feedback || [])
+      // LIMITATIONS
 
-.forEach(item=>{
+      if(
+        Array.isArray(report.limitations) &&
+        report.limitations.length > 0
+      ){
 
+        html += `
 
-html += `
+          <h3>
+            Limitations
+          </h3>
 
+        `;
 
-<div class="source">
+        report.limitations.forEach(item => {
 
+          const finding =
+            typeof item === "string"
+              ? item
+              : item.finding;
 
-<p>
+          html += `
 
-${clean(item.finding)}
+            <div class="source">
+              ${clean(finding)}
+            </div>
 
-</p>
+          `;
 
+        });
 
-<a href="${item.source_url}" target="_blank">
+      }
 
-View Source
 
-</a>
+      // SOURCE TABLE
 
+      html += `
 
-</div>
+        <h3>
+          Sources
+        </h3>
 
+      `;
 
-`;
+      const sourceTable =
+        Array.isArray(report.source_table)
+          ? report.source_table
+          : [];
 
-});
+      if(sourceTable.length === 0){
 
+        html += `
+          <p>No source table was returned.</p>
+        `;
 
+      }
 
+      sourceTable.forEach((source,index) => {
 
+        const sourceUrl =
+          safeUrl(source.url);
 
-// NEGATIVE
+        html += `
 
+          <div class="source">
 
-html += `
+            <strong>
+              Source ${index + 1}
+            </strong>
 
-<h3>
-Negative Feedback
-</h3>
+            <p>
+              ${clean(source.title || "Unknown source")}
+            </p>
 
-`;
+            <p>
+              <b>Source Type:</b>
+              ${clean(source.source_type)}
+            </p>
 
+            <p>
+              <b>Published Date:</b>
+              ${clean(source.published_date || "Unknown")}
+            </p>
 
+            <p>
+              <b>Reliability:</b>
+              ${clean(source.reliability_level)}
+            </p>
 
-(report.negative_feedback || [])
+            ${
+              sourceUrl !== "#"
+                ? `
+                  <a
+                    href="${clean(sourceUrl)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open Source
+                  </a>
+                `
+                : `<p>Source URL unavailable.</p>`
+            }
 
-.forEach(item=>{
+          </div>
 
+        `;
 
-html += `
+      });
 
+      output.innerHTML = html;
 
-<div class="source">
+    } catch(error){
 
+      console.error(
+        "Research request failed:",
+        error
+      );
 
-<strong>
+      output.innerHTML = `
 
-${clean(item.finding)}
+        <h3>
+          Error
+        </h3>
 
-</strong>
+        <p>
+          ${clean(error.message)}
+        </p>
 
+        <p>
+          ${
+            WEBHOOK_URL.includes("/webhook-test/")
+              ? "Make sure you clicked “Listen for test event” in n8n before running the website."
+              : "Check that the n8n workflow is active and the production webhook URL is correct."
+          }
+        </p>
 
-<p>
+      `;
 
-<b>Evidence:</b>
+    } finally{
 
-${clean(item.evidence_excerpt)}
+      clearInterval(timer);
 
-</p>
+      runButton.disabled = false;
+      runButton.textContent = "Run Research";
 
+    }
 
-
-<a href="${item.source_url}" target="_blank">
-
-View Source
-
-</a>
-
-
-</div>
-
-
-`;
-
-});
-
-
-
-
-
-// MARKET GAPS
-
-
-html += `
-
-<h3>
-Market Gaps
-</h3>
-
-`;
-
-
-
-(report.market_gaps || [])
-
-.forEach(item=>{
-
-
-html += `
-
-<div class="source">
-
-${clean(item.finding)}
-
-</div>
-
-`;
-
-});
-
-
-
-
-
-
-// SOURCE TABLE
-
-
-html += `
-
-<h3>
-Sources
-</h3>
-
-`;
-
-
-
-(report.source_table || [])
-
-.forEach((s,index)=>{
-
-
-html += `
-
-
-<div class="source">
-
-
-<strong>
-
-Source ${index+1}
-
-</strong>
-
-
-<p>
-
-${clean(
-s.title
-)}
-
-</p>
-
-
-
-<a href="${s.url}" target="_blank">
-
-Open Source
-
-</a>
-
-
-</div>
-
-
-`;
-
-});
-
-
-
-output.innerHTML = html;
-
-
-
-}
-
-
-catch(error){
-
-
-console.error(error);
-
-
-output.innerHTML = `
-
-<h3>
-Error
-</h3>
-
-
-<p>
-
-${clean(error.message)}
-
-</p>
-
-`;
-
-}
-
-
-
-};
-
+  };
 
 </script>
 
-</body> 
+</body>
+
 </html>
