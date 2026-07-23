@@ -203,10 +203,6 @@ Published Date
 </th>
 
 <th>
-Reliability
-</th>
-
-<th>
 URL
 </th>
 
@@ -500,7 +496,7 @@ function displaySources(){
       <tr>
 
         <td
-          colspan="5"
+          colspan="4"
           class="empty"
         >
           No sources found for this filter.
@@ -529,11 +525,6 @@ function displaySources(){
 
         const publishedDate =
           source.published_date ||
-          "Unknown";
-
-        const reliability =
-          source.reliability_level ||
-          source.reliability ||
           "Unknown";
 
         const sourceLink =
@@ -571,10 +562,6 @@ function displaySources(){
 
             <td>
               ${clean(publishedDate)}
-            </td>
-
-            <td>
-              ${clean(reliability)}
             </td>
 
             <td>
@@ -691,7 +678,6 @@ function downloadCSV(){
     "Title",
     "Source Type",
     "Published Date",
-    "Reliability",
     "URL"
   ];
 
@@ -707,16 +693,10 @@ function downloadCSV(){
         source.published_date ||
         "Unknown";
 
-      const reliability =
-        source.reliability_level ||
-        source.reliability ||
-        "Unknown";
-
       return [
         source.title || "No title",
         sourceType,
         publishedDate,
-        reliability,
         source.url || ""
       ]
         .map(escapeCSV)
